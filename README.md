@@ -10,15 +10,15 @@ Licensed under the MIT license:
 
 ### Usage
 ```
-java -jar jtail.jar myapp.log
+java -jar jtail.jar /path/to/myapp.log
 ```
 
-filtering(include)
+Filtering lines by regular expression.
 ```
-java -jar jtail.jar myapp.log Error|Exception
+java -jar jtail.jar /path/to/myapp.log Error|Exception
 ```
 
-filtering(exclude)
+To exclude lines, write regular expression starts with '!'.
 ```
-java -jar jtail.jar myapp.log !Error|Exception
+java -jar jtail.jar /path/to/myapp.log !Error|Exception
 ```

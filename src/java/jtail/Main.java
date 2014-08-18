@@ -29,7 +29,7 @@ public class Main {
 
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 
-		final TailInputStream in = new TailInputStream(file);
+		final TailInputStream in = new TailInputStream(file, 500);
 
 		try {
 

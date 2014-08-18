@@ -16,11 +16,7 @@ public class TailInputStream extends InputStream {
 	private boolean alive;
 	private long start;
 	private RandomAccessFile raf;
-	
-	public TailInputStream(File file) throws IOException {
-		this(file, 100);
-	}
-	
+
 	public TailInputStream(File file, long waitIntervalInMillis) throws IOException {
 		this.file = file;
 		this.waitIntervalInMillis = waitIntervalInMillis;

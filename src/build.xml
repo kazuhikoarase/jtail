@@ -1,0 +1,34 @@
+<project default="all" basedir="../">
+
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
+
+	<target name="all" depends="dist" />
+
+	<target name="init">
+		<mkdir dir="${build}/java" />
+		<mkdir dir="${dist}"/>
+	</target>
+
+	<target name="dist" depends="init">
+		<javac
+			destdir="${build}/java" 
+			srcdir="${src}/java"
+			includeantruntime="false" />
+		<jar
+			destfile="${dist}/jtail.jar" 
+			manifest="${src}/assets/MANIFEST.MF" >
+			<zipfileset dir="${build}/java">
+				<include name="**/*" />
+			</zipfileset>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+
+</project>
+

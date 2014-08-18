@@ -16,6 +16,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		if (args.length < 1) {
+			System.err.println("jtail [target file] ([filter]...)");
 			return;
 		}
 

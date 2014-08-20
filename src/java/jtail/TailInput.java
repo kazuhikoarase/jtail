@@ -28,6 +28,7 @@ public class TailInput {
 	public void read(Consumer c) throws IOException {
 
 		long start = file.length();
+		ByteArrayOutputStream buf = null;
 
 		while (alive) {
 
@@ -51,7 +52,6 @@ public class TailInput {
 			RandomAccessFile raf = new RandomAccessFile(file, "r");
 			try {
 
-				ByteArrayOutputStream buf = null;
 				int b;
 
 				raf.seek(start);

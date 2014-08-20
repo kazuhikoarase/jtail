@@ -28,17 +28,8 @@ public class TailInput {
 		this.alive = true;
 	}
 
-	protected void waitForInput() throws IOException {
-		while (start == file.length() ) {
-			try {
-				Thread.sleep(waitIntervalInMillis);
-			} catch(InterruptedException e) {
-				throw new IOException(e);
-			}
-			if (!alive) {
-				return;
-			}
-		}
+	public void shutdown() {
+		alive = false;
 	}
 
 	public void read(Consumer c) throws IOException {
@@ -50,22 +41,41 @@ public class TailInput {
 
 			waitForInput();
 
-			if (start > file.length() ) {
-				// file changed.
-				start = 0;
+			if (!alive) {
+				return;
 			}
 
-			RandomAccessFile raf = new RandomAccessFile(file, "r");
+			readFile(c);
+		}
+	}
+
+	protected void waitForInput() throws IOException {
+		while (alive && start == file.length() ) {
 			try {
-				int b;
-				raf.seek(start);
-				while (alive && (b = raf.read() ) != -1) {
-					start += 1;
-					doByte(c, b);
-				}
-			} finally {
-				raf.close();
+				Thread.sleep(waitIntervalInMillis);
+			} catch(InterruptedException e) {
+				throw new IOException(e);
 			}
+		}
+	}
+	
+	protected void readFile(Consumer c) throws IOException {
+
+		if (start > file.length() ) {
+			// file changed.
+			start = 0;
+		}
+
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
+		try {
+			int b;
+			raf.seek(start);
+			while (alive && (b = raf.read() ) != -1) {
+				start += 1;
+				doByte(c, b);
+			}
+		} finally {
+			raf.close();
 		}
 	}
 
@@ -83,9 +93,5 @@ public class TailInput {
 
 	protected void doBytes(Consumer c, byte[] bytes) throws IOException {
 		c.accept(bytes);
-	}
-
-	public void shutdown() {
-		alive = false;
 	}
 }
